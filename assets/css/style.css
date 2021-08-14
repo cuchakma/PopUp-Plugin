@@ -1,0 +1,22 @@
+.metabox-main h4{
+    display: inline-block;
+    text-align: right;
+}
+
+input[type="text"] {
+    margin-left: 27px;
+}
+
+input[type="url"] {
+    margin-left: 116px;
+}
+
+input[type="checkbox"] {
+    margin-left: 83px;
+}
+
+.metabox-4 input[type="checkbox"] {
+    margin-left: 54px;
+}
+
+
