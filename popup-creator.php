@@ -93,10 +93,10 @@ class PopupCreator{
             $query->the_post();
             $size = json_decode(get_post_meta(get_the_ID(), 'popup_datas', true));
             if($size->popup_active) {
-                $image = get_the_post_thumbnail_url(get_the_ID(), $size->popup_size, true);
+                $image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), $size->popup_size);
                 ?>
                     <div class="modal-content" data-modal-id="<?php the_ID(); ?>" data-size="<?php echo  $size->popup_size; ?>">
-                    <img src="<?php echo esc_url($image);?>">
+                    <img src="<?php echo esc_url($image[0]);?>" height="<?php echo $image[1]; ?>" width="<?php echo $image[2];?>">
                         <div>
                             <img class="close-button" alt="close-img" width="40" src="<?php echo plugins_url('', __FILE__).'/assets/img/close.png';?>">
                         </div>
