@@ -69,6 +69,7 @@ class PopupCreator{
 
     public function register_popup_size() {
         add_image_size('popup-landscape', 600, 800, true);
+        add_image_size('popup-square', 500, 500);
     }
 }
 

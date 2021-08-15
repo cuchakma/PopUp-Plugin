@@ -19,4 +19,11 @@ input[type="checkbox"] {
     margin-left: 54px;
 }
 
+select#popup_size {
+    margin-left: 75px;
+    margin-bottom: 11px;
+}
+
+
+
 
