@@ -24,6 +24,8 @@ select#popup_size {
     margin-bottom: 11px;
 }
 
-
+.metabox-6 input[type="checkbox"]{
+    margin-left: 105px;
+}
 
 

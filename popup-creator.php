@@ -19,6 +19,8 @@
  *
  */
 
+use function GuzzleHttp\json_decode;
+
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 class PopupCreator{
@@ -76,20 +78,33 @@ class PopupCreator{
     }
 
     public function register_popup_size() {
-        add_image_size('popup-landscape', 600, 800, true);
+        add_image_size('popup-landscape', 800, 600, true);
         add_image_size('popup-square', 500, 500);
     }
 
     public function print_modal_markup(){
-        ?>
-            <div id="modal-content" style="">
-               <img src="https://images.unsplash.com/photo-1627662236973-4fd8358fa206?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80" alt="image-popup" width="700" height="400">
-                <div>
-                    <img id="close-button" alt="close-img" width="40" src="<?php echo plugins_url('', __FILE__).'/assets/img/close.png';?>">
-                </div>
-            </div>
-
-        <?php
+        $args = array(
+            'post_type'   => 'popup',
+            'post_status' => 'publish',
+            'meta_key'    => 'popup_datas'
+        );
+        $query = new WP_Query($args);
+        while($query->have_posts()) {
+            $query->the_post();
+            $size = json_decode(get_post_meta(get_the_ID(), 'popup_datas', true));
+            if($size->popup_active) {
+                $image = get_the_post_thumbnail_url(get_the_ID(), $size->popup_size, true);
+                ?>
+                    <div class="modal-content" data-modal-id="<?php the_ID(); ?>" data-size="<?php echo  $size->popup_size; ?>">
+                    <img src="<?php echo esc_url($image);?>">
+                        <div>
+                            <img class="close-button" alt="close-img" width="40" src="<?php echo plugins_url('', __FILE__).'/assets/img/close.png';?>">
+                        </div>
+                    </div>
+                <?php
+            }
+        }
+        wp_reset_query();
     }
 }
 

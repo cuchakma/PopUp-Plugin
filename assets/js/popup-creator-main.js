@@ -2,8 +2,15 @@
     $(document).ready(function(){
         PlainModal.closeByEscKey = false;
         PlainModal.closeByOverlay = false;
-        var modal = new PlainModal(document.getElementById('modal-content'));
-        modal.closeButton = document.getElementById('close-button');
-        modal.open();
+        var modalels = document.querySelectorAll(".modal-content");
+        var modals = [];
+        for( let  i = 0; i < modalels.length; i++) {
+            let content = modalels[i];
+            modals[i] = new PlainModal(content);
+            modals[i].closeButton = content.querySelector('.close-button');
+            modals[i].open();
+        } 
+
+      
     });
 })(jQuery)
