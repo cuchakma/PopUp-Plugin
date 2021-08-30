@@ -32,7 +32,9 @@ class PopupCreator{
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_side_style') );
         add_action( 'wp_enqueue_scripts', array( $this, 'public_side_scripts') );
         add_action( 'wp_footer', array( $this, 'print_modal_markup') );
+        require __DIR__.'/parts/helpers/popup-helper-functions.php';
         require __DIR__.'/parts/meta-boxes/popup-metabox.php';
+        
     }
 
     public function admin_side_style() {
@@ -83,20 +85,16 @@ class PopupCreator{
     }
 
     public function print_modal_markup(){
-        $args = array(
-            'post_type'   => 'popup',
-            'post_status' => 'publish',
-            'meta_key'    => 'popup_datas'
-        );
-        $query = new WP_Query($args);
-        while($query->have_posts()) {
-            $query->the_post();
-            $size = json_decode(get_post_meta(get_the_ID(), 'popup_datas', true));
-            if($size->popup_active) {
-                $image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), $size->popup_size);
+        $current_page         = get_queried_object();
+        $get_meta_datas       = get_post_meta($current_page->ID, 'popup_id');
+        $make_metadata_single = !empty(array_column($get_meta_datas, 'popup_id')[0]) ? array_column($get_meta_datas, 'popup_id')[0] : array();
+        foreach($make_metadata_single as $id) {
+            $popup_datas_to_array = \json_decode(get_post_meta($id, 'popup_datas', true), true);
+            if( $popup_datas_to_array['popup_active'] ) {
+                $image_src = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), $popup_datas_to_array['popup_size'] );
                 ?>
-                    <div class="modal-content" data-modal-id="<?php the_ID(); ?>" data-size="<?php echo  $size->popup_size; ?>">
-                    <img src="<?php echo esc_url($image[0]);?>" height="<?php echo $image[1]; ?>" width="<?php echo $image[2];?>">
+                    <div class="modal-content" data-modal-id="<?php the_ID(); ?>" data-size="<?php echo $popup_datas_to_array['popup_size']; ?>">
+                    <img src="<?php echo esc_url($image_src[0]);?>" height="<?php echo $image_src[1]; ?>" width="<?php echo $image_src[2];?>">
                         <div>
                             <img class="close-button" alt="close-img" width="40" src="<?php echo plugins_url('', __FILE__).'/assets/img/close.png';?>">
                         </div>
@@ -104,7 +102,6 @@ class PopupCreator{
                 <?php
             }
         }
-        wp_reset_query();
     }
 }
 

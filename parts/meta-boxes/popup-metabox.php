@@ -21,6 +21,9 @@ class PopupMetaboxes{
         $popup_autohide = !empty( $datas['popup_autohide'] ) ? 'checked' : '';
         $popup_unhide   = !empty( $datas['popup_unhide'] )  ? 'checked' : '';
         $popup_size     = isset( $datas['popup_size'] ) ? $datas['popup_size'] : '';
+        $selected_pages = get_post_meta(get_the_ID(), 'popup_pages_selected', true);
+        $selected_pages = !empty($selected_pages) ? $selected_pages : array();
+        error_log(print_r($selected_pages, 1));
         ?> 
         <div class="metabox-main">
             <div class="metabox-6">
@@ -55,6 +58,19 @@ class PopupMetaboxes{
                     <option value="original" <?php echo $popup_size == 'original'? 'selected' : '';?>>Original</option>
                 </select>
             </div>
+            <div class="metabox-7">
+                <h4>Select Pages To Target</h4>
+                <select name="popup_page_ids[]" id="popup_page_ids" multiple>
+                    <option disabled selected value> -- select an option -- </option>
+                    <?php 
+                        foreach(Popup_Helper::PagesPostsIDTitle() as $page_id => $page_title) {
+                            ?>
+                                <option value="<?php echo $page_id;?>" <?php echo in_array($page_id, $selected_pages) ? 'selected':'';?>><?php echo $page_title; ?></option>
+                            <?php
+                        }
+                    ?>
+                </select>
+            </div>
         </div>
         <?php
     }
@@ -68,6 +84,30 @@ class PopupMetaboxes{
         $popup_size     = isset( $_POST['popup_size'] ) ? sanitize_text_field( $_POST['popup_size'] ) : '';
         $all_values     = json_encode(array( 'popup_active' => $popup_active, 'popup_time' => $popup_time, 'popup_url' => $popup_url, 'popup_autohide' => $popup_autohide, 'popup_unhide' => $popup_unhide, 'popup_size' => $popup_size));
         update_post_meta($post_id, 'popup_datas', $all_values);
+
+        //pages ID values from user input
+        $popup_page_ids       = !empty( $_POST['popup_page_ids'] ) ? $_POST['popup_page_ids'] : '';
+        update_post_meta($post_id, 'popup_pages_selected', $popup_page_ids);
+
+        //assigning popup ID's to page ID's
+        if(!empty($popup_page_ids)) {
+            foreach( $popup_page_ids as $page_id ) {
+                $get_previous_popup_ids = get_post_meta($page_id, 'popup_id', true); //get previous popup ID, on page ID
+                //delete if the previous pop up id is not array
+                if(!is_array($get_previous_popup_ids)) {
+                    delete_post_meta($page_id, 'popup_id');
+                    $get_previous_popup_ids = array();
+                }
+                if( !empty( $get_previous_popup_ids ) || $get_previous_popup_ids != null ) {
+                    array_push($get_previous_popup_ids['popup_id'], $post_id );
+                    $get_previous_popup_ids['popup_id'] = array_unique($get_previous_popup_ids['popup_id']);
+                    update_post_meta($page_id, 'popup_id', $get_previous_popup_ids);
+                } else {
+                    $popup_ids = array('popup_id' => array( $post_id ) );
+                    update_post_meta($page_id, 'popup_id', $popup_ids);
+                }
+            }
+        }
     }
 }
 
