@@ -1,5 +1,4 @@
 <?php
-
 class Popup_Helper{
     public static function PagesPostsIDTitle(){
         $post_pags_ids_title = array();

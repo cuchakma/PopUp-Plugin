@@ -23,33 +23,32 @@ class PopupMetaboxes{
         $popup_size     = isset( $datas['popup_size'] ) ? $datas['popup_size'] : '';
         $selected_pages = get_post_meta(get_the_ID(), 'popup_pages_selected', true);
         $selected_pages = !empty($selected_pages) ? $selected_pages : array();
-        error_log(print_r($selected_pages, 1));
         ?> 
-        <div class="metabox-main">
-            <div class="metabox-6">
+        <div class="colums">
+            <div class="item">
                 <h4>Active</h4>
                 <input type="checkbox" id="popup_active" name="popup_active" value="1" <?php echo esc_attr($popup_active); ?>>
                 <label for="popup_active">Active</label><br>
             </div>
-            <div class="metabox-1">
+            <div class="item">
                 <h4>Display Popup After</h4>
                 <input type="text" name="display_popup_after" value="<?php echo esc_attr($popup_time); ?>">
             </div>
-            <div class="metabox-2">
+            <div class="item">
                 <h4>URL</h4>
                 <input type="url" name="popup_url" value="<?php echo esc_url($popup_url); ?>">
             </div>
-            <div class="metabox-3">
+            <div class="item">
                 <h4>Auto Hide</h4>
                 <input type="checkbox" id="auto_hide" name="auto_hide" value="1" <?php echo esc_attr($popup_autohide); ?>>
                 <label for="auto_hide">Don't Hide</label><br>
             </div>
-            <div class="metabox-4">
+            <div class="item">
                 <h4>Display On Exit</h4>
                 <input type="checkbox" id="popup_dont_hide" name="popup_dont_hide" value="1"<?php echo esc_attr($popup_unhide); ?>>
                 <label for="popup_dont_hide">Display On Exit</label><br>
             </div>
-            <div class="metabox-5">
+            <div class="item">
                 <h4>Popup Size</h4>
                 <select name="popup_size" id="popup_size">
                     <option disabled selected value> -- select an option -- </option>
@@ -58,7 +57,7 @@ class PopupMetaboxes{
                     <option value="original" <?php echo $popup_size == 'original'? 'selected' : '';?>>Original</option>
                 </select>
             </div>
-            <div class="metabox-7">
+            <div class="item">
                 <h4>Select Pages To Target</h4>
                 <select name="popup_page_ids[]" id="popup_page_ids" multiple>
                     <option disabled selected value> -- select an option -- </option>

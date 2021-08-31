@@ -1,31 +1,29 @@
-.metabox-main h4{
-    display: inline-block;
-    text-align: right;
+.item {
+    position: relative;
+    margin: 10px 0;
 }
 
-input[type="text"] {
-    margin-left: 27px;
+.item span {
+    color: red;
 }
 
-input[type="url"] {
-    margin-left: 116px;
+.item i, input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    font-size: 20px;
+    color:  #a3c2c2;
+    }
+    .item i {
+    right: 1%;
+    top: 30px;
+    z-index: 1;
 }
 
-input[type="checkbox"] {
-    margin-left: 83px;
+.colums {
+    display:flex;
+    justify-content:space-between;
+    flex-direction:row;
+    flex-wrap:wrap;
 }
-
-.metabox-4 input[type="checkbox"] {
-    margin-left: 54px;
+.colums div {
+    width:48%;
 }
-
-select#popup_size {
-    margin-left: 75px;
-    margin-bottom: 11px;
-}
-
-.metabox-6 input[type="checkbox"]{
-    margin-left: 105px;
-}
-
-

@@ -86,7 +86,9 @@ class PopupCreator{
 
     public function print_modal_markup(){
         $current_page         = get_queried_object();
-        $get_meta_datas       = get_post_meta($current_page->ID, 'popup_id');
+        $current_page_id      = isset( $current_page->ID ) ? $current_page->ID : '';
+        $get_meta_datas       = get_post_meta($current_page_id, 'popup_id');
+        $get_meta_datas       = is_bool( $get_meta_datas ) ? array() : $get_meta_datas;
         $make_metadata_single = !empty(array_column($get_meta_datas, 'popup_id')[0]) ? array_column($get_meta_datas, 'popup_id')[0] : array();
         foreach($make_metadata_single as $id) {
             $popup_datas_to_array = \json_decode(get_post_meta($id, 'popup_datas', true), true);
