@@ -70,6 +70,21 @@ class PopupMetaboxes{
                     ?>
                 </select>
             </div>
+            <div class="item">
+                <h4>Select To Unassign Current Popup</h4>
+                <select name= "selected_pages[]" id="selected_pages" multiple>
+                    <option disabled selected value>--Pages Selected--</option>
+                    <?php 
+                        foreach(Popup_Helper::PagesPostsIDTitle() as $page_id => $page_title) {
+                            if( in_array( $page_id, $selected_pages ) ) {
+                                ?>
+                                    <option value="<?php echo $page_id;?>"><?php echo $page_title; ?></option>
+                                <?php
+                            }
+                        }
+                    ?>
+                </select>
+            </div>
         </div>
         <?php
     }
@@ -98,12 +113,35 @@ class PopupMetaboxes{
                     $get_previous_popup_ids = array();
                 }
                 if( !empty( $get_previous_popup_ids ) || $get_previous_popup_ids != null ) {
-                    array_push($get_previous_popup_ids['popup_id'], $post_id );
-                    $get_previous_popup_ids['popup_id'] = array_unique($get_previous_popup_ids['popup_id']);
+                    if( $get_previous_popup_ids['popup_id'] != null ) {
+                        array_push($get_previous_popup_ids['popup_id'], $post_id );
+                        $get_previous_popup_ids['popup_id'] = array_unique($get_previous_popup_ids['popup_id']);
+                    }
                     update_post_meta($page_id, 'popup_id', $get_previous_popup_ids);
                 } else {
                     $popup_ids = array('popup_id' => array( $post_id ) );
                     update_post_meta($page_id, 'popup_id', $popup_ids);
+                }
+            }
+        }
+
+        /**
+         * Delete Popup Datas From Selected Fields/Pages
+         */
+        if( isset( $_POST['selected_pages'] ) ) {
+            $get_selected_page_id        = get_post_meta($post_id, 'popup_pages_selected', true);
+            $new_unselected_pages_id     = array_diff( $get_selected_page_id, $_POST['selected_pages'] );
+            
+            $page_ids_to_remove_popup = isset( $_POST['selected_pages'] ) ? $_POST['selected_pages'] : '';
+            foreach( $page_ids_to_remove_popup as $page_id ) {
+                $get_popup_from_page_id     = get_post_meta($page_id, 'popup_id', true);
+                $new_updated_popup_ids      = $get_popup_from_page_id['popup_id'];
+                $delete_popup_index         = array_search(get_the_ID(), $new_updated_popup_ids);
+                if( isset( $delete_popup_index ) ) {
+                    unset( $new_updated_popup_ids[$delete_popup_index] );
+                    $new_updated_popup_ids = array_values($new_updated_popup_ids);
+                    update_post_meta($post_id, 'popup_pages_selected', $new_unselected_pages_id);
+                    update_post_meta($page_id, 'popup_id', $new_updated_popup_ids);
                 }
             }
         }
