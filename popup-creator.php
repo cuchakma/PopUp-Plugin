@@ -34,7 +34,12 @@ class PopupCreator{
         add_action( 'wp_footer', array( $this, 'print_modal_markup') );
         require __DIR__.'/parts/helpers/popup-helper-functions.php';
         require __DIR__.'/parts/meta-boxes/popup-metabox.php';
+        $this->define_constants();
         
+    }
+
+    public function define_constants() {
+        define( 'BASEPATH', plugins_url( '', __FILE__ ) );
     }
 
     public function admin_side_style() {

@@ -28,3 +28,26 @@
 .colums div {
     width:48%;
 }
+
+.popup_images{
+    display: inline-flex;
+    gap: 30px;
+}
+
+.popup_image{
+    background-color: #ffffff;
+    box-shadow: 0 10px 100px 0 rgb(40 47 98 / 8%)
+}
+
+.popup_image:hover {
+    transform: scale(0.9);
+}
+
+.popup-thumbnail {
+    width: 400px;
+    height: 300px;
+}
+
+p{
+    margin: 0px;
+}

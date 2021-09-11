@@ -9,6 +9,7 @@ class PopupMetaboxes{
 
     public function metabox_1(){
         add_meta_box('popup-metabox-1', 'Popup Settings', array($this, 'render_metabox_1'), 'popup' );
+        add_meta_box('template_select_metabox', 'Select Popup Template', array($this, 'select_template_metabox'), 'popup');
     }
 
     public function render_metabox_1() {
@@ -86,6 +87,19 @@ class PopupMetaboxes{
                 </select>
             </div>
         </div>
+        <?php
+    }
+
+    public function select_template_metabox() {
+        ?>
+            <div class="popup_images">
+                <div class="popup_image">
+                    <img src="<?php echo BASEPATH.'/assets/thumbnail/center-popup.png'; ?>" class="popup-thumbnail">
+                </div>
+                <div class="popup_image">
+                    <img src="<?php echo BASEPATH.'/assets/thumbnail/right-bottom-slidein.png'; ?>" class="popup-thumbnail">
+                </div>
+            </div>
         <?php
     }
 
