@@ -1,0 +1,14 @@
+.modal-content{
+    background-color: white;
+    padding:50px 50px 4px 50px;
+}
+
+.plainmodal .plainmodal-overlay{
+    width: 200%;
+    height: 200%;
+}
+
+.close-button{
+    margin: auto auto auto auto;
+    display: block;
+}
