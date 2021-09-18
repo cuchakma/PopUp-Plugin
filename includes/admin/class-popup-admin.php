@@ -116,27 +116,33 @@ class Popup_admin {
         update_post_meta($post_id, 'popup_datas', $all_values);
 
         //pages ID values from user input
-        $popup_page_ids       = !empty( $_POST['popup_page_ids'] ) ? $_POST['popup_page_ids'] : '';
-        update_post_meta($post_id, 'popup_pages_selected', $popup_page_ids);
-
+        $popup_page_ids       = isset( $_POST['popup_page_ids'] ) ? $_POST['popup_page_ids'] : '';
+    
         //assigning popup ID's to page ID's
-        if(!empty($popup_page_ids)) {
+        if($popup_page_ids) {
             foreach( $popup_page_ids as $page_id ) {
                 $get_previous_popup_ids = get_post_meta($page_id, 'popup_id', true); //get previous popup ID, on page ID
+    
                 //delete if the previous pop up id is not array
                 if(!is_array($get_previous_popup_ids)) {
                     delete_post_meta($page_id, 'popup_id');
                     $get_previous_popup_ids = array();
                 }
                 if( !empty( $get_previous_popup_ids ) || $get_previous_popup_ids != null ) {
-                    if( $get_previous_popup_ids['popup_id'] != null ) {
+                    if( !empty($get_previous_popup_ids['popup_id']) ) {
                         array_push($get_previous_popup_ids['popup_id'], $post_id );
                         $get_previous_popup_ids['popup_id'] = array_unique($get_previous_popup_ids['popup_id']);
+                        update_post_meta($page_id, 'popup_id', $get_previous_popup_ids);
+                        update_post_meta($post_id, 'popup_pages_selected', $popup_page_ids);
+                    } else {
+                        array_push($get_previous_popup_ids['popup_id'], $post_id );
+                        update_post_meta($page_id, 'popup_id', $get_previous_popup_ids);
+                        update_post_meta($post_id, 'popup_pages_selected', $popup_page_ids);
                     }
-                    update_post_meta($page_id, 'popup_id', $get_previous_popup_ids);
                 } else {
                     $popup_ids = array('popup_id' => array( $post_id ) );
                     update_post_meta($page_id, 'popup_id', $popup_ids);
+                    update_post_meta($post_id, 'popup_pages_selected', $popup_page_ids);
                 }
             }
         }
@@ -147,17 +153,15 @@ class Popup_admin {
         if( isset( $_POST['selected_pages'] ) ) {
             $get_selected_page_id        = get_post_meta($post_id, 'popup_pages_selected', true);
             $new_unselected_pages_id     = array_diff( $get_selected_page_id, $_POST['selected_pages'] );
-            
+   
             $page_ids_to_remove_popup = isset( $_POST['selected_pages'] ) ? $_POST['selected_pages'] : '';
             foreach( $page_ids_to_remove_popup as $page_id ) {
                 $get_popup_from_page_id     = get_post_meta($page_id, 'popup_id', true);
-                $new_updated_popup_ids      = $get_popup_from_page_id['popup_id'];
-                $delete_popup_index         = array_search(get_the_ID(), $new_updated_popup_ids);
+                $delete_popup_index         = array_search(get_the_ID(), $get_popup_from_page_id['popup_id']);
                 if( isset( $delete_popup_index ) ) {
-                    unset( $new_updated_popup_ids[$delete_popup_index] );
-                    $new_updated_popup_ids = array_values($new_updated_popup_ids);
+                    unset($get_popup_from_page_id['popup_id'][$delete_popup_index]);
                     update_post_meta($post_id, 'popup_pages_selected', $new_unselected_pages_id);
-                    update_post_meta($page_id, 'popup_id', $new_updated_popup_ids);
+                    update_post_meta($page_id, 'popup_id', $get_popup_from_page_id);
                 }
             }
         }
