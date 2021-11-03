@@ -1,3 +1,9 @@
+.postbox {
+    border: 1px solid #DEE2E6 !important;
+    box-shadow: 1px 1px 3px 0px #00000014;
+    font-family: serif;
+    border-radius: 8px;
+}
 .item {
     position: relative;
     margin: 10px 0;
