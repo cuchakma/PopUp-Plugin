@@ -19,6 +19,7 @@ class Popup_cpt{
             'label'                 => 'Popups',
             'labels'                => $labels,
             'description'           => '',
+            'menu_icon'             => BASEPATH.'/assets/images/pop-up.png',
             'public'                => false,
             'publicly_queryable'    => true,
             'show_ui'               => true,
