@@ -67,3 +67,29 @@
 p{
     margin: 0px;
 }
+
+/** POPUP TABLE CSS **/
+.wp-list-table  {
+    background-color:#F4F7FC !important;
+    border-style: none !important;
+    border-radius: 10px;
+   
+}
+
+.wp-list-table thead tr th {
+    font-family: sans-serif !important;
+    font-weight: 600 !important;
+    font-style: normal !important;
+    size: 12px !important;
+    line-height: 14.42px !important;
+    border-bottom: none;
+}
+
+.widefat thead td,.widefat tfoot td,.widefat tfoot th {
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+.wp-list-table .no-items {
+    background-color: #FFFFFF!important;
+}

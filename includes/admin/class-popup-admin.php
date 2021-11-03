@@ -4,7 +4,7 @@ class Popup_admin {
     public function __construct()
     {
         add_action( 'init', array( $this, 'register_popup_size') );
-        add_action( 'admin_enqueue_scripts', array( $this, 'admin_side_style') );
+        add_action( 'admin_enqueue_scripts', array( $this, 'admin_side_style'), 10, 1 );
         add_action( 'add_meta_boxes', array( $this, 'metabox_popup_setting' ) );
         add_action( 'save_post_popup', array( $this, 'save_popup_data'), 10, 1 );
     }
@@ -173,7 +173,11 @@ class Popup_admin {
     }
 
     public function admin_side_style() {
+        $current_screen = get_current_screen();
         wp_register_style( 'metabox-custom-css', plugins_url('', __FILE__).'/assets/css/style.css', false, rand());
+        if($current_screen->id === 'edit-popup' && $current_screen->post_type === 'popup') {
+            wp_enqueue_style('metabox-custom-css');
+        }
     }
 
 }
