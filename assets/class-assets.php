@@ -10,6 +10,7 @@ class Popup_assets {
 
     public function admin_side_style() {
         wp_register_style( 'metabox-custom-css', BASEPATH.'/assets/css/style.css', false, rand());
+        wp_register_style( 'builder-mode', BASEPATH .'/assets/css/pops-build.css', false, rand());
     }
 
     public function public_side_scripts() {

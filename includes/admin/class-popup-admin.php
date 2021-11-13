@@ -178,6 +178,9 @@ class Popup_admin {
         if($current_screen->id === 'edit-popup' && $current_screen->post_type === 'popup') {
             wp_enqueue_style('metabox-custom-css');
         }
+        if($current_screen->id === 'popup_page_popup_builder_mode' && $current_screen->post_type === 'popup') {
+            wp_enqueue_style('builder-mode');
+        }
     }
 
 }
