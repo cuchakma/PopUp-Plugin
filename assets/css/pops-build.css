@@ -6,10 +6,11 @@
     font-size: 19px;
     line-height: 23.85px;
     letter-spacing: 0.4px;
-    position: absolute;
+    position: relative;
     left: 15px;
     right: 0px;
-    top: 160px;
+    top: 20px;
+    bottom: 0px;
     height: 608px;
     align-items: stretch;
     gap: 30px;
@@ -30,10 +31,4 @@
    flex-basis: 87%;
    background-color: #fff;
    box-shadow: 0 0 10px rgb(0 0 0 / 30%);
-}
-
-@media screen and (max-width: 2405px) {
-    .popup-main-section {
-        position: static;
-    }
 }
