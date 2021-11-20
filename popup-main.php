@@ -45,6 +45,8 @@ final class Popup_init{
         require BASEDIREC . '/includes/admin/class-popup-admin.php';
         require BASEDIREC . '/includes/public/class-popup-template.php';
         require BASEDIREC . '/includes/admin/class-popup-builder.php';
+        require BASEDIREC .'/includes/admin/popup-widgets/base_widget.php';
+        require BASEDIREC .'/includes/admin/popup-widgets/class-text.php';
     }
 }
 

@@ -22,9 +22,12 @@ class Popup_Builder{
             <div class="popup-main-section">
                 <aside class="popup-sidebar">
                     <h3 class="pop-wid-head">Popup Widget</h3>
+                    <ul class="popup-text-widget">
+                        <?php do_action('popup_widgets_hook_admin'); ?>
+                    <ul>
                 </aside>
                 <main class="popup-build">
-                    
+                    <?php do_action('popup_preview_screen_admin'); ?>
                 </main>
             </div>
         <?php
